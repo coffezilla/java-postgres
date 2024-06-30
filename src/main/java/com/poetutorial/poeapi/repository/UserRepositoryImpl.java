@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserById(Long id) {
-        String sql = "SELECT id, name, email, created_ad FROM users WHERE id = ?";
+        String sql = "SELECT id, name, email, created_at FROM users WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             User user = new User();
             user.setId(rs.getLong("id"));
@@ -43,7 +43,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-        String sql = "UPDATE users SET name = ?, email = ?, created_ad = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, email = ?, created_at = ? WHERE id = ?";
         jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getCreatedAt(), user.getId());
     }
 

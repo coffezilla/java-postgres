@@ -2,6 +2,7 @@ package com.poetutorial.poeapi.controller;
 
 import com.poetutorial.poeapi.model.User;
 import com.poetutorial.poeapi.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,15 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<User>> getAllUsers() {
-//        List<User> users = userService.getAllUsers();
-//        return new ResponseEntity<>(users, HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable Long id) {
+        User user = userService.findUserById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

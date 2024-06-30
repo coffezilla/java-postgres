@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -23,9 +24,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     public void saveUser(User user) {
         String sql = "INSERT INTO users (name, email, created_at) VALUES (?,?,?)";
+
+        Timestamp createdAt = Timestamp.valueOf(user.getCreatedAt());
+
         // fix Timestamp
         // jdbcTemplate.update(sql, user.getName(), user.getEmail(), new java.sql.Timestamp(user.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getCreatedAt());
+        jdbcTemplate.update(sql, user.getName(), user.getEmail(), createdAt);
     }
 
     @Override
@@ -53,4 +57,17 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
+
+    @Override
+    public List<User> findAllUsers() {
+        String sql = "SELECT * FROM users";
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                new User(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getTimestamp("created_at").toLocalDateTime()
+            ));
+    }
+
 }

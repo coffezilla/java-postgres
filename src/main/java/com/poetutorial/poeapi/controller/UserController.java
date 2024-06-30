@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setCreatedAt(LocalDateTime.now());
+
         userService.saveUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -57,6 +60,12 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> findAllUsers() {
+        List<User> users = userService.findAllUsers();
+        return ResponseEntity.ok(users);
     }
 
 }

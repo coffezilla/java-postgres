@@ -5,6 +5,8 @@ import com.poetutorial.poeapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -33,5 +35,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteUser(id);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAllUsers();
     }
 }

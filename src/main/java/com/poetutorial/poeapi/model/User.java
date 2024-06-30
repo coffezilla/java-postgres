@@ -44,7 +44,7 @@ public class User {
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return LocalDateTime.now();
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

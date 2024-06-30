@@ -23,6 +23,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setCreatedAt(LocalDateTime.now());
+
         userService.saveUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

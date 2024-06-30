@@ -24,12 +24,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     public void saveUser(User user) {
         String sql = "INSERT INTO users (name, email, created_at) VALUES (?,?,?)";
-
-//         Timestamp createdAt = Timestamp.valueOf(user.getCreatedAt());
-
-        // fix Timestamp
-        // jdbcTemplate.update(sql, user.getName(), user.getEmail(), new java.sql.Timestamp(user.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getCreatedAt());
+        Timestamp createdAt = Timestamp.valueOf(user.getCreatedAt());
+        jdbcTemplate.update(sql, user.getName(), user.getEmail(), createdAt);
     }
 
     @Override

@@ -42,9 +42,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         String sql = "UPDATE users SET name = ?, email = ?, created_at = ? WHERE id = ?";
         jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getCreatedAt(), user.getId());
+        return user;
     }
 
     @Override
